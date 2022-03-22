@@ -46,7 +46,7 @@ function Post({post}: Props) {
                             ),
 
                         }}
-                                    />
+                    />
                 </div>
             </article>
         </main>
