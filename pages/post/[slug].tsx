@@ -2,16 +2,22 @@ import {sanityClient, urlFor} from "../../sanity";
 import Header from "../../components/Header";
 import {async} from "rxjs";
 // @ts-ignore
+
+
 import {Post} from "../../typing";
 import {GetStaticProps} from "next";
 import PortableText from "react-portable-text"
+
+import { useForm, SubmitHandler } from "react-hook-form";
 
 interface Props {
     post: Post
 }
 
 function Post({post}: Props) {
-    console.log(post)
+
+    const {register, handleSubmit, formState: {errors}} = useForm();
+
     return (
         <main>
             <Header/>
@@ -58,17 +64,17 @@ function Post({post}: Props) {
 
                 <label className="block mb-5">
                     <span className="text-gray-700">Name</span>
-                    <input className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500" placeholder="Ola Normann" type="text"/>
+                    <input className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500 outline-none focus:ring" placeholder="Ola Normann" type="text"/>
                 </label>
 
                 <label className="block mb-5">
                     <span className="text-gray-700">Email</span>
-                    <input className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500" placeholder="Ola@mail.com" type="text"/>
+                    <input className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500 outline-none focus:ring" placeholder="Ola@mail.com" type="text"/>
                 </label>
 
                 <label className="block mb-5">
                     <span className="text-gray-700">Comment</span>
-                    <textarea className="shadow border rounded py-2 px-3 form-textarea mt-1 block w-full ring-yellow-500" placeholder="Skriv en kommentar.." rows={8} />
+                    <textarea className="shadow border rounded py-2 px-3 form-textarea mt-1 block w-full ring-yellow-500 outline-none focus:ring" placeholder="Skriv en kommentar.." rows={8} />
                 </label>
             </form>
         </main>
