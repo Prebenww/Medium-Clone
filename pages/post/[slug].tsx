@@ -67,7 +67,7 @@ function Post({post}: Props) {
                 </label>
 
                 <label className="block mb-5">
-                    <span className="text-gray-700">Comments</span>
+                    <span className="text-gray-700">Comment</span>
                     <textarea className="shadow border rounded py-2 px-3 form-textarea mt-1 block w-full ring-yellow-500" placeholder="Skriv en kommentar.." rows={8} />
                 </label>
             </form>
