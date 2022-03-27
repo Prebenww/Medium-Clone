@@ -8,20 +8,42 @@ import {Post} from "../../typing";
 import {GetStaticProps} from "next";
 import PortableText from "react-portable-text"
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import {useForm, SubmitHandler} from "react-hook-form";
+import {fetch} from "rxjs/src/internal/umd";
+import {useState} from "react";
+
+interface IFormInput {
+    _id: string;
+    name: string;
+    email: string;
+    comment: string;
+}
 
 interface Props {
     post: Post
 }
 
 function Post({post}: Props) {
+const [submitted, setSubmitted] = useState(false)
+    const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
 
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    //           fetch("/api/createComment", {
+    //             method: "POST",
+    //           body: JSON.stringify(data),
+    //      }).then(() => {
+        //          setSubmitted(true)
+    //           console.log(data);
+    //      }).catch((err) => {
+     //   setSubmitted(true);
+    //         console.log(err);
+    //     });
+    };
 
     return (
         <main>
             <Header/>
-               <img className="w-full h-40 object-cover" src={urlFor(post.mainImage).url()} alt=""/>
+            <img className="w-full h-40 object-cover" src={urlFor(post.mainImage).url()} alt=""/>
             <article className="max-w-3xl mx-auto p-5">
                 <h1 className="text-3xl mt-10 mb-3">{post.title}</h1>
                 <h2 className="text-xl font-light text-gray-500 mb-2">{post.description}</h2>
@@ -55,28 +77,72 @@ function Post({post}: Props) {
                     />
                 </div>
             </article>
-            <hr className="max-w-lg my-5 mx-auto border border-yellow-500" />
-            <form className="flex flex-col p-5 max-w-2xl mx-auto mb-10">
-                <h3 className="flex-sm text-yellow-500">Enjoyed this article?</h3>
-                <h4 className="text-3xl font-bold">Leave a comment below!</h4>
+            <hr className="max-w-lg my-5 mx-auto border border-yellow-500"/>
+            {submitted ? (
+                <div className="flex flex-col py-10 my-10 bg-yellow-500 text-white max-w-2xl mx-auto">
+                    <h3>Thank you for submitting you comment</h3>
+                    <p>Once it is approved it will appear below.</p>
+                </div>
+            ): (
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="flex flex-col p-5 max-w-2xl mx-auto mb-10">
+                    <h3 className="flex-sm text-yellow-500">Enjoyed this article?</h3>
+                    <h4 className="text-3xl font-bold">Leave a comment below!</h4>
+                    <hr className="py-3 mt-2"/>
 
-                <hr className="py-3 mt-2" />
+                    <input {...register("_id")}
+                           type="hidden"
+                           name="_id"
+                           value={post._id}
+                    />
 
-                <label className="block mb-5">
-                    <span className="text-gray-700">Name</span>
-                    <input className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500 outline-none focus:ring" placeholder="Ola Normann" type="text"/>
-                </label>
+                    <label className="block mb-5">
+                        <span className="text-gray-700">Name</span>
+                        <input
+                            {...register("name", {required: true})}
+                            className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500 outline-none focus:ring"
+                            placeholder="Ola Normann" type="text"/>
+                    </label>
 
-                <label className="block mb-5">
-                    <span className="text-gray-700">Email</span>
-                    <input className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500 outline-none focus:ring" placeholder="Ola@mail.com" type="text"/>
-                </label>
+                    <label className="block mb-5">
+                        <span className="text-gray-700">Email</span>
+                        <input
+                            {...register("email", {required: true})}
+                            className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500 outline-none focus:ring"
+                            placeholder="Ola@mail.com" type="email"/>
+                    </label>
 
-                <label className="block mb-5">
-                    <span className="text-gray-700">Comment</span>
-                    <textarea className="shadow border rounded py-2 px-3 form-textarea mt-1 block w-full ring-yellow-500 outline-none focus:ring" placeholder="Skriv en kommentar.." rows={8} />
-                </label>
-            </form>
+                    <label className="block mb-5">
+                        <span className="text-gray-700">Comment</span>
+                        <textarea
+                            {...register("comment", {required: true})}
+                            className="shadow border rounded py-2 px-3 form-textarea mt-1 block w-full ring-yellow-500 outline-none focus:ring"
+                            placeholder="Skriv en kommentar.." rows={8}/>
+                    </label>
+
+                    <div className="flex flex-col p-5">
+                        {errors.name && (
+                            <span className="text-red-500">The Name field is required</span>
+                        )}
+                        {errors.comment && (
+                            <span className="text-red-500">The Comment field is required</span>
+                        )}
+                        {errors.email && (
+                            <span className="text-red-500">The Email field is required</span>
+                        )}
+
+                    </div>
+                    <input
+                        className="shadow bg-yellow-500 hover:bg-yellow-400 focus:shadow-outline text-white font-bold py-2 px-4 rounded cursor-pointer"
+                        type="submit"
+                    />
+
+
+                </form>
+            )
+            }
+
         </main>
     )
 }
