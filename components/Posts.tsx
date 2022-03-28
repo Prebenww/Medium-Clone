@@ -1,5 +1,5 @@
 import Link from "next/link"
-import {Post} from "../../typing";
+import {Post} from "../typing"
 
 interface Props {
     posts: [Post];
