@@ -28,13 +28,15 @@ const [submitted, setSubmitted] = useState(false)
     const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
-              fetch("/api/createComment", {
+              // @ts-ignore
+        // @ts-ignore
+        fetch("/api/createComment", {
                 method: "POST",
               body: JSON.stringify(data),
          }).then(() => {
               setSubmitted(true)
               console.log(data);
-         }).catch((err) => {
+         }).catch((err: any) => {
        setSubmitted(true);
             console.log(err);
         });

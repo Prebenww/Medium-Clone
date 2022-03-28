@@ -9,6 +9,7 @@ const config = {
     useCdn: process.env.NODE_ENV === "production",
 }
 
+// @ts-ignore
 const client = sanityClient(config);
 
 type Data = {
@@ -33,8 +34,10 @@ export default async function createComment(
             comment
         })
     } catch (err){
+        // @ts-ignore
         return res.status(500).json({ message: "Couldent submit comment", err})
     }
 
+    // @ts-ignore
     res.status(200).json({ message: 'John Doe' })
 }
