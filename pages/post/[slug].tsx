@@ -1,9 +1,9 @@
 import {sanityClient, urlFor} from "../../sanity";
 import Header from "../../components/Header";
-import {async} from "rxjs";
+
+
+
 // @ts-ignore
-
-
 import {Post} from "../../typing";
 import {GetStaticProps} from "next";
 import PortableText from "react-portable-text"

@@ -1,5 +1,6 @@
 import Link from "next/link"
-import {Post} from "../typing";
+// @ts-ignore
+import {Post} from "../../typing";
 
 interface Props {
     posts: [Post];
