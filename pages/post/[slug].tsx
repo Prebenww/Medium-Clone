@@ -3,7 +3,7 @@ import Header from "../../components/Header";
 
 
 
-// @ts-ignore
+
 import {Post} from "../../typing";
 import {GetStaticProps} from "next";
 import PortableText from "react-portable-text"
@@ -28,16 +28,16 @@ const [submitted, setSubmitted] = useState(false)
     const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    //           fetch("/api/createComment", {
-    //             method: "POST",
-    //           body: JSON.stringify(data),
-    //      }).then(() => {
-        //          setSubmitted(true)
-    //           console.log(data);
-    //      }).catch((err) => {
-     //   setSubmitted(true);
-    //         console.log(err);
-    //     });
+              fetch("/api/createComment", {
+                method: "POST",
+              body: JSON.stringify(data),
+         }).then(() => {
+              setSubmitted(true)
+              console.log(data);
+         }).catch((err) => {
+       setSubmitted(true);
+            console.log(err);
+        });
     };
 
     return (
